@@ -4,6 +4,7 @@ import com.project.questapp.entities.Post;
 import com.project.questapp.entities.User;
 import com.project.questapp.request.PostCreateRequest;
 import com.project.questapp.request.PostUpdateRequest;
+import com.project.questapp.responses.PostResponse;
 import com.project.questapp.services.PostService;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +22,7 @@ public class PostController {
 
     //@RequestParams requestin request parçalar içindeki parametreyi alır.
     @GetMapping
-    public List<Post> getAllPosts(@RequestParam Optional<Long> userId){
+    public List<PostResponse> getAllPosts(@RequestParam Optional<Long> userId){
         return postService.getAllPosts(userId);
     }
 

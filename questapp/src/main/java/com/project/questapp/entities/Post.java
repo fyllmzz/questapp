@@ -16,10 +16,12 @@ public class Post {
     // Long userId;
     //userId alanı user objesini temsil eder.
     // birebir ilişki
-    @ManyToOne(fetch = FetchType.LAZY) //user obj db den hemen çekme
+//    @ManyToOne(fetch = FetchType.LAZY) //user obj db den hemen çekme
+    //  @JsonIgnore
+    //Request obj oluşturduğumuz için
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn (name = "user_id",nullable = false)//db deki userid alanı user tablosuna bağlandı
     @OnDelete(action = OnDeleteAction.CASCADE ) //bir user silindiğinde tüm postları silinmeli
-    @JsonIgnore
     User user;
 
     String title;

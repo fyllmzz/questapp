@@ -5,10 +5,12 @@ import com.project.questapp.entities.User;
 import com.project.questapp.repos.PostRepository;
 import com.project.questapp.request.PostCreateRequest;
 import com.project.questapp.request.PostUpdateRequest;
+import com.project.questapp.responses.PostResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PostService {
@@ -22,13 +24,16 @@ public class PostService {
         this.userService=userService;
     }
 
-    public List<Post> getAllPosts(Optional<Long> userId) {
+    public List<PostResponse> getAllPosts(Optional<Long> userId) {
+        List<Post> list;
         if(userId.isPresent())//ispresent ifadesi, userıd parmetresi bana geldiyse demek.
         {
-            return postRepository.findByUserId(userId);
-        }else {
-            return postRepository.findAll();
+            list=postRepository.findByUserId(userId);
         }
+        list=postRepository.findAll();
+
+        return list.stream().map(p -> new PostResponse(p)).collect(Collectors.toList());
+
     }
 
     public Post getOnePostById(Long postId) {
