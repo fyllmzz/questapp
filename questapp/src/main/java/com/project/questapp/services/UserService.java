@@ -21,7 +21,9 @@ public class UserService {
     }
 
     public User saveOneUser(User newUser) {
-        return  userRepository.save(newUser);
+        User savedUser = userRepository.save(newUser);
+        System.out.println("Saved User ID: " + savedUser.getId());
+        return savedUser;
     }
 
     public User getOneUserById(Long userId) {
@@ -47,4 +49,7 @@ public class UserService {
     }
 
 
+    public User getOneUserName(String userName) {
+        return userRepository.findByUserName(userName);
+    }
 }
