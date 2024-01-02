@@ -57,7 +57,7 @@ public class AuthController {
     public ResponseEntity<AuthResponse> register (@RequestBody UserRequest registerRequest){
         AuthResponse authResponse=new AuthResponse();
         if(userService.getOneUserName(registerRequest.getUserName()) != null){
-            authResponse.setMessage("Username already in use.");
+            authResponse.setMessage("Kullanıcı adı zaten kullanımda.");
             return new ResponseEntity<>(authResponse, HttpStatus.BAD_REQUEST);
         }
         try {
