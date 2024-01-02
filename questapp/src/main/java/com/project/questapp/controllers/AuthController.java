@@ -1,6 +1,7 @@
 package com.project.questapp.controllers;
 
 import com.project.questapp.request.UserRequest;
+import com.project.questapp.responses.AuthResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -39,19 +40,25 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody UserRequest loginRequest){
+    public AuthResponse login(@RequestBody UserRequest loginRequest){
         UsernamePasswordAuthenticationToken authenticationToken=new UsernamePasswordAuthenticationToken(loginRequest.getUserName(),loginRequest.getPassword());
 
         Authentication authentication=authenticationManager.authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwtToken=jwtTokenProvider.generateJwtToken(authentication);
-        return "Bearer "+ jwtToken;
+        User user= userService.getOneUserName(loginRequest.getUserName());
+        AuthResponse authResponse= new AuthResponse();
+        authResponse.setMessage("Bearer "+ jwtToken);
+        authResponse.setUserId(user.getId());
+        return authResponse;
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register (@RequestBody UserRequest registerRequest){
+    public ResponseEntity<AuthResponse> register (@RequestBody UserRequest registerRequest){
+        AuthResponse authResponse=new AuthResponse();
         if(userService.getOneUserName(registerRequest.getUserName()) != null){
-            return new ResponseEntity<>("Username already in use.", HttpStatus.BAD_REQUEST);
+            authResponse.setMessage("Username already in use.");
+            return new ResponseEntity<>(authResponse, HttpStatus.BAD_REQUEST);
         }
         try {
             User user=new User();
@@ -66,12 +73,13 @@ public class AuthController {
                     registerRequest.getUserName(), registerRequest.getPassword());
             Authentication authentication = authenticationManager.authenticate(authenticationToken);
             String jwtToken = jwtTokenProvider.generateJwtToken(authentication);
-
-            return new ResponseEntity<>("Kullanıcı başarıyla kaydedildi. Bearer " + jwtToken, HttpStatus.CREATED);
+            authResponse.setMessage("Kullanıcı başarıyla kaydedildi.");
+            return new ResponseEntity<>(authResponse, HttpStatus.CREATED);
 
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>("Kullanıcı kaydedilirken bir hata oluştu.", HttpStatus.INTERNAL_SERVER_ERROR);
+            authResponse.setMessage("Kullanıcı kaydedilirken bir hata oluştu.");
+            return new ResponseEntity<>(authResponse, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
        // return new ResponseEntity<>("User Successfully registered.", HttpStatus.CREATED);

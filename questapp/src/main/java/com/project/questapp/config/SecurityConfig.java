@@ -100,6 +100,8 @@ public class SecurityConfig {
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers("/auth/login", "/auth/register").permitAll() // login ve register endpoint'leri herkese açık
+                                .requestMatchers(HttpMethod.GET, "/posts").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/comments").permitAll()
                                 .anyRequest().authenticated()
                 );
 
