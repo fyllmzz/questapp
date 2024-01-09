@@ -1,12 +1,9 @@
 package com.project.questapp.services;
 
-import com.project.questapp.entities.Comment;
 import com.project.questapp.entities.Like;
 import com.project.questapp.entities.Post;
 import com.project.questapp.entities.User;
 import com.project.questapp.repos.LikeRepository;
-import com.project.questapp.request.CommentCreateRequest;
-import com.project.questapp.request.CommentUpdateRequest;
 import com.project.questapp.request.LikeCreateRequest;
 import com.project.questapp.request.LikeUpdateRequest;
 import org.springframework.stereotype.Service;

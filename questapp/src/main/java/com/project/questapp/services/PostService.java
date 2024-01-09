@@ -41,17 +41,24 @@ public class PostService {
     }
 
     public Post createOnePost(PostCreateRequest newPostCreateRequest) {
+        try {
+            User user = userService.getOneUserById(newPostCreateRequest.getUserId());
+            if (user == null) {
+                System.out.println("Kullanıcı bulunamadı.");
+                return null;
+            }
 
-       User user=  userService.getOneUserById(newPostCreateRequest.getUserId());
-       if(user == null){
-           return null;
-       }
-       Post toSave=new Post();
-       toSave.setId(newPostCreateRequest.getId());
-       toSave.setText(newPostCreateRequest.getText());
-       toSave.setTitle(newPostCreateRequest.getTitle());
-       toSave.setUser(user);
-        return postRepository.save(toSave);
+            Post toSave = new Post();
+            toSave.setText(newPostCreateRequest.getText());
+            toSave.setTitle(newPostCreateRequest.getTitle());
+            toSave.setUser(user);
+            Post saved = postRepository.save(toSave);
+
+            return saved;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public Post updateOnePostById(Long postId, PostUpdateRequest postUpdateRequest) {

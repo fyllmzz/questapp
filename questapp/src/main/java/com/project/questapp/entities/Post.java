@@ -11,18 +11,19 @@ import org.hibernate.annotations.OnDeleteAction;
 @Data
 public class Post {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     // Long userId;
     //userId alanı user objesini temsil eder.
     // birebir ilişki
-//    @ManyToOne(fetch = FetchType.LAZY) //user obj db den hemen çekme
+    //    @ManyToOne(fetch = FetchType.LAZY) //user obj db den hemen çekme
     //  @JsonIgnore
     //Request obj oluşturduğumuz için
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn (name = "user_id",nullable = false)//db deki userid alanı user tablosuna bağlandı
     @OnDelete(action = OnDeleteAction.CASCADE ) //bir user silindiğinde tüm postları silinmeli
-    User user;
+            User user;
 
     String title;
     @Lob

@@ -4,7 +4,6 @@ import com.project.questapp.entities.Comment;
 import com.project.questapp.entities.Post;
 import com.project.questapp.entities.User;
 import com.project.questapp.repos.CommentRepository;
-import com.project.questapp.repos.UserRepository;
 import com.project.questapp.request.CommentCreateRequest;
 import com.project.questapp.request.CommentUpdateRequest;
 import org.springframework.stereotype.Service;

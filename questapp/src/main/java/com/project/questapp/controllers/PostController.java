@@ -1,7 +1,6 @@
 package com.project.questapp.controllers;
 
 import com.project.questapp.entities.Post;
-import com.project.questapp.entities.User;
 import com.project.questapp.request.PostCreateRequest;
 import com.project.questapp.request.PostUpdateRequest;
 import com.project.questapp.responses.PostResponse;
@@ -38,7 +37,7 @@ public class PostController {
     }
 
     @PutMapping("/{postId}")
-    public Post updateOnePost(@PathVariable Long postId,@RequestBody PostUpdateRequest updateRequest){
+    public Post updateOnePost(@PathVariable Long postId, @RequestBody PostUpdateRequest updateRequest){
       return  postService.updateOnePostById(postId, updateRequest);
 
     }
